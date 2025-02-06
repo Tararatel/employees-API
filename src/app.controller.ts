@@ -1,9 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
+import { join } from 'path';
+import { Response } from 'express';
 
 @Controller()
 export class AppController {
   @Get()
-  home() {
-    return 'Добро пожаловать в API базы сотрудников';
+  home(@Res() res: Response) {
+    res.sendFile(join(__dirname, '..', 'public', 'index.html'));
   }
 }

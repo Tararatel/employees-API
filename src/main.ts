@@ -15,8 +15,7 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization',
   });
 
-  app.useStaticAssets(join(__dirname, 'public'));
-  app.useStaticAssets(join(__dirname, 'images'), { prefix: '/images' });
+  app.useStaticAssets(join(__dirname, '..', 'public'));
 
   app.useGlobalPipes(
     new ValidationPipe({

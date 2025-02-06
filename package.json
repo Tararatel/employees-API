@@ -9,8 +9,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
-    "build": "nest build && npm run copy-assets",
-    "copy-assets": "cp -r ./public/images ./dist"
+    "build": "nest build"
   },
   "dependencies": {
     "@faker-js/faker": "^9.4.0",
