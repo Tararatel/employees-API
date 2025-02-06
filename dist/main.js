@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handler = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
-const path = require("path");
+const path_1 = require("path");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, {
         cors: true,
@@ -14,16 +13,15 @@ async function bootstrap() {
         methods: 'GET,POST,PUT,DELETE',
         allowedHeaders: 'Content-Type, Authorization',
     });
+    app.useStaticAssets((0, path_1.join)(__dirname, '..', 'public'), {
+        prefix: '/',
+    });
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
         transform: true,
     }));
-    app.useStaticAssets(path.join(__dirname, '..', 'public'), {
-        prefix: '/',
-    });
-    const handler = await app.getHttpAdapter().getInstance();
-    return handler;
+    await app.listen(3000);
 }
-exports.handler = bootstrap();
+bootstrap();
 //# sourceMappingURL=main.js.map
