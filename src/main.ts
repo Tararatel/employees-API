@@ -2,8 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { Handler } from '@netlify/functions';
-import * as path from 'path';
+import path, { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -16,6 +15,10 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization',
   });
 
+  app.useStaticAssets(join(__dirname, '..', 'public'), {
+    prefix: '/',
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -23,14 +26,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-
-  app.useStaticAssets(path.join(__dirname, '..', 'public'), {
-    prefix: '/',
-  });
-
-  const handler = await app.getHttpAdapter().getInstance();
-
-  return handler;
+  await app.listen(3000);
 }
-
-export const handler = bootstrap();
+bootstrap();
